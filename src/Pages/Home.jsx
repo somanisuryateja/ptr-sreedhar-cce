@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../Components/Header";
+import GreenNavBar from "../Components/GreenNavBar";
 
 /* -------------------------- Small UI helpers -------------------------- */
 const SectionCard = ({ title, bg = "bg-white", children, className = "" }) => (
@@ -150,32 +151,24 @@ const Home = () => {
       <Header />
 
       {/* top dark green nav strip */}
-      <nav className="w-full bg-[#0B8365] text-white text-[13px]">
-        <div className="max-w-6xl mx-auto px-4">
-          <ul className="flex flex-wrap items-center gap-x-6 gap-y-2 py-2">
-            {[
-              "ABOUT US",
-              "ALL ACTS",
-              "TRIBUNAL",
-              "RTI",
-              "CITIZEN'S CHARTER",
-              "GST INFO",
-              "STAFF COLLEGE",
-              "CONTACT US",
-              "KNOW YOUR JURISDICTION",
-            ].map((item) => (
-              <li key={item} className="hover:underline underline-offset-4">
-                <button>{item}</button>
-              </li>
-            ))}
-            <li>
-              <span className="ml-2 rounded-full bg-[#FF5E66] text-white px-2 py-[2px] text-[11px]">
-                New
-              </span>
-            </li>
-          </ul>
-        </div>
-      </nav>
+      <GreenNavBar 
+        bgColor="bg-[#0B8365]"
+        textSize="text-[13px]"
+        layout="simple"
+        menuItems={[
+          { label: "ABOUT US", href: null },
+          { label: "ALL ACTS", href: null },
+          { label: "TRIBUNAL", href: null },
+          { label: "RTI", href: null },
+          { label: "CITIZEN'S CHARTER", href: null },
+          { label: "GST INFO", href: null },
+          { label: "STAFF COLLEGE", href: null },
+          { label: "CONTACT US", href: null },
+          { label: "KNOW YOUR JURISDICTION", href: null },
+          { label: "New", href: null, badge: true }
+        ]}
+        rightButtons={[]}
+      />
 
       {/* page container */}
       <div className="max-w-6xl mx-auto px-4">

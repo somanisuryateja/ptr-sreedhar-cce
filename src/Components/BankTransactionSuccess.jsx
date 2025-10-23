@@ -7,6 +7,12 @@ const BankTransactionSuccess = () => {
   const navigate = useNavigate();
   const { paymentData, bankDetails, transactionDetails } = state || {};
   const [storedTransaction, setStoredTransaction] = useState(null);
+  const [countdown, setCountdown] = useState(50);
+  const [transactionRefs, setTransactionRefs] = useState({
+    bankRef: null,
+    crn: null,
+    timestamp: null
+  });
 
   // Bank logos mapping
   const bankLogos = {
@@ -30,19 +36,21 @@ const BankTransactionSuccess = () => {
     "Punjab National Bank": "#FF6B35"
   };
 
-  // Generate 10-digit random bank reference number
-  const generateBankRef = () => {
-    return Math.floor(1000000000 + Math.random() * 9000000000).toString();
-  };
-
-  // Generate random CRN
-  const generateCRN = () => {
-    return Math.floor(100000000000 + Math.random() * 900000000000).toString();
-  };
-
-  const bankRef = generateBankRef();
-  const crn = generateCRN();
-  const currentTimestamp = new Date().toLocaleString();
+  // Initialize transaction references only once
+  useEffect(() => {
+    if (!transactionRefs.bankRef) {
+      // Generate these values only once when component mounts
+      const bankRef = transactionDetails?.bankRef || Math.floor(1000000000 + Math.random() * 9000000000).toString();
+      const crn = storedTransaction?.crn || Math.floor(100000000000 + Math.random() * 900000000000).toString();
+      const timestamp = transactionDetails?.timestamp || new Date().toLocaleString();
+      
+      setTransactionRefs({
+        bankRef: bankRef,
+        crn: crn,
+        timestamp: timestamp
+      });
+    }
+  }, [transactionDetails, storedTransaction]);
 
   // Store successful transaction in backend
   useEffect(() => {
@@ -78,7 +86,11 @@ const BankTransactionSuccess = () => {
           ddocode: transactionDetails.ddocode,
           hoa: transactionDetails.hoa,
           bankRef: transactionDetails.bankRef,
-          bankTimestamp: transactionDetails.timestamp
+          bankTimestamp: transactionDetails.timestamp,
+          
+          // Essential tracking fields
+          etaxPaymentReference: paymentData?.paymentId || transactionDetails?.bankRef,
+          paymentId: paymentData?.paymentId
         };
 
         const response = await fetch(`${API_BASE_URL}/api/store-transaction-success`, {
@@ -102,6 +114,24 @@ const BankTransactionSuccess = () => {
     storeTransaction();
   }, [paymentData, bankDetails, transactionDetails]);
 
+  // Countdown timer effect
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCountdown((prevCountdown) => {
+        if (prevCountdown <= 1) {
+          clearInterval(timer);
+          // Auto-redirect to dashboard when countdown reaches 0
+          navigate('/dashboard');
+          return 0;
+        }
+        return prevCountdown - 1;
+      });
+    }, 1000);
+
+    // Cleanup timer on component unmount
+    return () => clearInterval(timer);
+  }, [navigate]);
+
   // Get bank theme based on selected bank
   const getBankLogo = () => {
     return bankLogos[bankDetails?.bankName] || bankLogos["Kotak Mahindra Bank"];
@@ -113,6 +143,18 @@ const BankTransactionSuccess = () => {
 
   const getBankName = () => {
     return bankDetails?.bankName || "Kotak Mahindra Bank";
+  };
+
+  // Handle manual navigation to dashboard
+  const handleCompleteTransaction = () => {
+    navigate("/payment-success", { 
+      state: { 
+        paymentData: paymentData,
+        bankDetails: bankDetails,
+        transactionDetails: transactionDetails,
+        storedTransaction: storedTransaction
+      } 
+    });
   };
 
   return (
@@ -139,8 +181,8 @@ const BankTransactionSuccess = () => {
           {/* Green info banner */}
           <div className="bg-[#E8F9E8] border-b border-gray-300 text-[#066d0a] p-3 text-sm">
             <p>
-              ✅ Please don’t close or refresh the page. You will be auto-redirected to
-              the portal in <b>50 secs</b> or click on “Complete transaction” to proceed.
+              ✅ Please don't close or refresh the page. You will be auto-redirected to
+              the portal in <b className="text-red-600 font-bold text-lg">{countdown}</b> secs or click on "Complete transaction" to proceed.
             </p>
           </div>
 
@@ -157,7 +199,7 @@ const BankTransactionSuccess = () => {
                 </tr>
                 <tr>
                   <td className="font-medium py-1">Bank Reference Number</td>
-                  <td className="font-mono">{bankRef}</td>
+                  <td className="font-mono">{transactionRefs.bankRef || "N/A"}</td>
                 </tr>
                 <tr>
                   <td className="font-medium py-1">E-Tax Payment Reference</td>
@@ -169,7 +211,7 @@ const BankTransactionSuccess = () => {
                 </tr>
                 <tr>
                   <td className="font-medium py-1">Timestamp</td>
-                  <td>{currentTimestamp}</td>
+                  <td>{transactionRefs.timestamp || "N/A"}</td>
                 </tr>
                 <tr>
                   <td className="font-medium py-1">Merchant Name</td>
@@ -185,7 +227,7 @@ const BankTransactionSuccess = () => {
                 </tr>
                 <tr>
                   <td className="font-medium py-1">CRN</td>
-                  <td className="font-mono">{crn}</td>
+                  <td className="font-mono">{transactionRefs.crn || "N/A"}</td>
                 </tr>
                 <tr>
                   <td className="font-medium py-1">Name</td>
@@ -197,13 +239,7 @@ const BankTransactionSuccess = () => {
             {/* Button */}
             <div className="mt-6 text-center">
               <button
-                 onClick={() => navigate("/payment-success", { 
-                   state: { 
-                     paymentData: paymentData,
-                     bankDetails: bankDetails,
-                     transactionDetails: transactionDetails
-                   } 
-                 })}
+                onClick={handleCompleteTransaction}
                 className="text-white px-6 py-2 text-sm font-medium rounded shadow-sm hover:opacity-90"
                 style={{ backgroundColor: getBankColor() }}
               >

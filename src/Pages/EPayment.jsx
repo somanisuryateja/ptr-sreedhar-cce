@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import LoginHeader from "../Components/LoginHeader";
+import GreenNavBar from "../Components/GreenNavBar";
 import API_BASE_URL from "../utils/api";
 
 const EPayment = () => {
@@ -202,35 +203,23 @@ const EPayment = () => {
       <LoginHeader />
 
       {/* Green navigation */}
-      <nav className="w-full bg-[#085A3A] text-white text-sm font-medium">
-        <div className="max-w-6xl mx-auto flex justify-between items-center px-4 py-2">
-          <ul className="flex flex-wrap gap-6">
-            <li>CHECK RC</li>
-            <li>Returns</li>
-            <li>Change Password</li>
-            <li>Reports</li>
-            <li>Refunds</li>
-            <li className="underline underline-offset-4">E-Payment</li>
-          </ul>
-          <div className="flex items-center gap-3">
-            <Link
-              to="/dashboard"
-              className="bg-[#0D784D] hover:bg-[#09623E] px-3 py-1.5 rounded-md"
-            >
-              Home
-            </Link>
-            <button
-              className="bg-[#0D784D] hover:bg-[#09623E] px-3 py-1.5 rounded-md"
-              onClick={() => {
-                localStorage.clear();
-                navigate("/login");
-              }}
-            >
-              Logout
-            </button>
-          </div>
-        </div>
-      </nav>
+      <GreenNavBar 
+        menuItems={[
+          { label: "CHECK RC", href: null },
+          { label: "Returns", href: "/returns" },
+          { label: "Change Password", href: null },
+          { label: "Reports", href: null },
+          { label: "Refunds", href: null },
+          { label: "E-Payment", href: null, active: true }
+        ]}
+        rightButtons={[
+          { label: "Home", href: "/dashboard", className: "bg-[#0D784D] hover:bg-[#09623E] px-3 py-1.5 rounded-md" },
+          { label: "Logout", onClick: () => {
+            localStorage.clear();
+            navigate("/login");
+          }, className: "bg-[#0D784D] hover:bg-[#09623E] px-3 py-1.5 rounded-md" }
+        ]}
+      />
 
       {/* Body */}
       <main className="flex-1 flex flex-col items-center py-10 px-4">

@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import LoginHeader from "../Components/LoginHeader";
+import GreenNavBar from "../Components/GreenNavBar";
 import API_BASE_URL from "../utils/api";
 
 /* helpers */
@@ -164,37 +165,25 @@ const ReturnsEntry = () => {
       {/* Top govt banner */}
       <LoginHeader />
 
-      {/* Green menu bar (like dashboard) */}
-      <nav className="w-full bg-[#085A3A] text-white text-sm font-medium">
-        <div className="max-w-6xl mx-auto flex flex-wrap justify-between items-center px-4 py-2">
-          <ul className="flex flex-wrap gap-6">
-            <li className="underline underline-offset-4">CHECK RC</li>
-            <li className="bg-white/10 px-2 rounded">Returns</li>
-            <li>Change Password</li>
-            <li>Reports</li>
-            <li>Refunds</li>
-            <li>E-Payment</li>
-          </ul>
-          <div className="flex items-center gap-3">
-            <Link
-              to="/dashboard"
-              className="bg-[#0D784D] hover:bg-[#09623E] px-3 py-1.5 rounded-md"
-            >
-              Home
-            </Link>
-            <button
-              className="bg-[#0D784D] hover:bg-[#09623E] px-3 py-1.5 rounded-md"
-              onClick={() => {
-                localStorage.removeItem("token");
-                localStorage.removeItem("user");
-                navigate("/login");
-              }}
-            >
-              Logout
-            </button>
-          </div>
-        </div>
-      </nav>
+      {/* Green menu bar */}
+      <GreenNavBar 
+        menuItems={[
+          { label: "CHECK RC", href: null },
+          { label: "Returns", href: null, active: true },
+          { label: "Change Password", href: null },
+          { label: "Reports", href: null },
+          { label: "Refunds", href: null },
+          { label: "E-Payment", href: "/epayment" }
+        ]}
+        rightButtons={[
+          { label: "Home", href: "/dashboard", className: "bg-[#0D784D] hover:bg-[#09623E] px-3 py-1.5 rounded-md" },
+          { label: "Logout", onClick: () => {
+            localStorage.removeItem("token");
+            localStorage.removeItem("user");
+            navigate("/login");
+          }, className: "bg-[#0D784D] hover:bg-[#09623E] px-3 py-1.5 rounded-md" }
+        ]}
+      />
 
       {/* Page body */}
       <main className="flex-1">
