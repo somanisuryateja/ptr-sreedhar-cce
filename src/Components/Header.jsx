@@ -8,7 +8,7 @@ const Header = () => {
         <img
           src="https://tgct.gov.in/tgportal/images/raising%20telangana.png"
           alt="Telangana Rising"
-          className="h-16 w-auto object-contain"
+          className="h-16 w-auto object-contain border border-gray-800 rounded-md"
         />
         <img
           src="https://tgct.gov.in/tgportal/images/logo.png"
@@ -16,10 +16,10 @@ const Header = () => {
           className="h-16 w-auto object-contain"
         />
         <div className="ml-2">
-          <h1 className="text-[#184A66] font-semibold text-xl tracking-wide">
-            COMMERCIAL TAXES DEPARTMENT
+          <h1 className="text-[#186638] font-bold  text-xl tracking-wide">
+            COMMERCIAL <span className="text-[#1a3c57] ">TAXES DEPARTMENT</span>
           </h1>
-          <p className="text-gray-700 text-sm font-medium">
+          <p className="text-gray-700 text-base font-medium">
             Government of Telangana
           </p>
         </div>

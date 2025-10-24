@@ -1,12 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const GreenNavBar = ({ 
-  menuItems = [], 
-  rightButtons = [], 
+const GreenNavBar = ({
+  menuItems = [],
+  rightButtons = [],
   bgColor = "bg-[#085A3A]",
   textSize = "text-sm",
-  layout = "default" // "default" or "simple"
+  layout = "default", // "default" or "simple"
 }) => {
   const defaultMenuItems = [
     { label: "CHECK RC", href: null },
@@ -14,16 +14,25 @@ const GreenNavBar = ({
     { label: "Change Password", href: null },
     { label: "Reports", href: null },
     { label: "Refunds", href: null },
-    { label: "E-Payment", href: "/epayment" }
+    { label: "E-Payment", href: "/epayment" },
   ];
 
   const defaultRightButtons = [
-    { label: "Home", href: "/dashboard", className: "bg-[#0D784D] hover:bg-[#09623E] px-3 py-1.5 rounded-md" },
-    { label: "Logout", onClick: true, className: "bg-red-600 hover:bg-red-700 px-3 py-1.5 rounded-md" }
+    {
+      label: "Home",
+      href: "/dashboard",
+      className: "bg-[#0D784D] hover:bg-[#09623E] px-3 py-1.5 rounded-md",
+    },
+    {
+      label: "Logout",
+      onClick: true,
+      className: "bg-red-600 hover:bg-red-700 px-3 py-1.5 rounded-md",
+    },
   ];
 
   const menuItemsToUse = menuItems.length > 0 ? menuItems : defaultMenuItems;
-  const rightButtonsToUse = rightButtons.length > 0 ? rightButtons : defaultRightButtons;
+  const rightButtonsToUse =
+    rightButtons.length > 0 ? rightButtons : defaultRightButtons;
 
   if (layout === "simple") {
     // Simple layout for Home page (no right buttons, different styling)
@@ -32,13 +41,31 @@ const GreenNavBar = ({
         <div className="max-w-6xl mx-auto px-4">
           <ul className="flex flex-wrap items-center gap-x-6 gap-y-2 py-2">
             {menuItemsToUse.map((item, index) => (
-              <li key={index} className="hover:underline underline-offset-4">
+              <li
+                key={index}
+                className="hover:underline underline-offset-4 font-medium"
+              >
                 {item.badge ? (
-                  <span className="ml-2 rounded-full bg-[#FF5E66] text-white px-2 py-[2px] text-[11px]">
+                  <span className="ml-2 rounded-full bg-[#f8e00c] text-black font-bold px-2 py-[2px] text-[11px]">
                     {item.label}
                   </span>
                 ) : (
-                  <button>{item.label}</button>
+                  <button className="flex items-center gap-1">
+                    {item.label}
+                    <svg
+                      className="w-3 h-3 "
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M19 9l-7 7-7-7"
+                      />
+                    </svg>
+                  </button>
                 )}
               </li>
             ))}
@@ -56,8 +83,8 @@ const GreenNavBar = ({
           {menuItemsToUse.map((item, index) => (
             <li key={index}>
               {item.href ? (
-                <Link 
-                  to={item.href} 
+                <Link
+                  to={item.href}
                   className="cursor-pointer hover:underline underline-offset-4"
                 >
                   {item.label}
@@ -78,21 +105,25 @@ const GreenNavBar = ({
               {button.href ? (
                 <Link
                   to={button.href}
-                  className={button.className || "bg-[#0D784D] hover:bg-[#09623E] px-3 py-1.5 rounded-md"}
+                  className={
+                    button.className ||
+                    "bg-[#0D784D] hover:bg-[#09623E] px-3 py-1.5 rounded-md"
+                  }
                 >
                   {button.label}
                 </Link>
               ) : button.onClick ? (
                 <button
                   onClick={button.onClick}
-                  className={button.className || "bg-[#0D784D] hover:bg-[#09623E] px-3 py-1.5 rounded-md"}
+                  className={
+                    button.className ||
+                    "bg-[#0D784D] hover:bg-[#09623E] px-3 py-1.5 rounded-md"
+                  }
                 >
                   {button.label}
                 </button>
               ) : (
-                <span className={button.className || ""}>
-                  {button.label}
-                </span>
+                <span className={button.className || ""}>{button.label}</span>
               )}
             </div>
           ))}

@@ -1,1 +1,28 @@
 @import "tailwindcss";
+.burst-horizontal {
+    display: inline-block;
+    position: relative;
+    background: red;
+    color: white;
+    font-weight: bold;
+    font-size: 10px;
+    padding: 3px 10px;
+    text-transform: uppercase;
+    text-align: center;
+    clip-path: polygon(
+      10% 0%,
+      15% 25%,
+      0% 25%,
+      5% 50%,
+      0% 75%,
+      15% 75%,
+      10% 100%,
+      90% 100%,
+      85% 75%,
+      100% 75%,
+      95% 50%,
+      100% 25%,
+      85% 25%,
+      90% 0%
+    );
+  }

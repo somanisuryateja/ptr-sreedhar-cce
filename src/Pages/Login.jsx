@@ -60,7 +60,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-    
+
     // Validate captcha first
     if (inputCaptcha !== captcha) {
       setError("❌ Invalid verification code!");
@@ -73,22 +73,22 @@ const Login = () => {
 
     try {
       const response = await fetch(`${API_BASE_URL}/api/login`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({ ptin, password })
+        body: JSON.stringify({ ptin, password }),
       });
 
       const data = await response.json();
 
       if (response.ok) {
         // Store token and user data in localStorage
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('user', JSON.stringify(data.user));
-        
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("user", JSON.stringify(data.user));
+
         // Navigate to dashboard
-        navigate('/dashboard');
+        navigate("/dashboard");
       } else {
         // Show the exact alert message as in the original system
         alert("Login Failed, Invalid User ID or Password");
@@ -96,7 +96,7 @@ const Login = () => {
         setInputCaptcha("");
       }
     } catch (err) {
-      setError('Network error. Please check your connection.');
+      setError("Network error. Please check your connection.");
       generateCaptcha();
       setInputCaptcha("");
     } finally {
@@ -105,20 +105,22 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-white">
+    <div className="min-h-screen bg-gray-100 flex flex-col">
       {/* Header */}
       <LoginHeader />
 
       {/* Main Content */}
-      <main className="flex-1 flex flex-col items-center justify-start py-10 px-4">
-        <h2 className="text-[#197749] text-2xl font-semibold mb-6">
+
+      <main className="flex-1 flex flex-col items-center justify-center w-full  py-10 px-4">
+        <h2 className="text-[#197749] text-xl w-[60%]  text-left font-semibold ">
           Profession Tax
         </h2>
-
-        <div className="bg-[#F8F9F8] border border-gray-300 rounded-md shadow-md w-full max-w-md p-6">
-          <h3 className="text-[#197749] text-lg font-semibold mb-4">
+        <div className="bg-white border border-gray-300 rounded-lg shadow-sm w-full max-w-6xl p-6">
+          <h3 className="text-[#197749] text-lg font-semibold mb-6">
             Dealer Login
           </h3>
+
+          <hr className="border-gray-300 my-4" />
 
           <form onSubmit={handleSubmit} className="space-y-4">
             {/* Error Message */}
@@ -129,98 +131,101 @@ const Login = () => {
             )}
 
             {/* PTIN */}
-            <div className="flex flex-col text-left">
-              <label className="text-sm text-gray-700 font-medium mb-1">
+            <div className="text-left flex items-center gap-2">
+              <label className="block text-sm text-gray-700 text-right w-[20%] font-medium mb-1">
                 PTIN <span className="text-red-600">*</span>
               </label>
               <input
                 type="text"
                 value={ptin}
                 onChange={(e) => setPtin(e.target.value)}
-                className="border border-gray-300 rounded-md p-2 text-sm focus:ring-2 focus:ring-green-400 focus:outline-none"
+                className="w-full border border-gray-300 rounded p-2 text-sm focus:ring-2 focus:ring-green-400 focus:outline-none"
                 required
               />
             </div>
 
             {/* Password */}
-            <div className="flex flex-col text-left">
-              <label className="text-sm text-gray-700 font-medium mb-1">
+            <div className="text-left flex items-center gap-2">
+              <label className="block text-sm text-gray-700 text-right w-[20%] font-medium mb-1">
                 Password <span className="text-red-600">*</span>
               </label>
               <input
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="border border-gray-300 rounded-md p-2 text-sm focus:ring-2 focus:ring-green-400 focus:outline-none"
+                className="w-full border border-gray-300 rounded p-2 text-sm focus:ring-2 focus:ring-green-400 focus:outline-none"
                 required
               />
             </div>
 
             {/* Captcha */}
-            <div className="flex flex-col text-left">
-              <label className="text-sm text-gray-700 font-medium mb-1">
+            <div className="text-left flex items-center gap-2">
+              <label className="block text-sm text-gray-700 text-right w-[20%] font-medium mb-1">
                 Verification Code
               </label>
-              <div className="flex items-center gap-2 mb-2">
-                <canvas
-                  ref={canvasRef}
-                  width={120}
-                  height={40}
-                  className="border border-gray-300 rounded"
-                />
-                <button
-                  type="button"
-                  onClick={generateCaptcha}
-                  className="text-sm text-green-700 underline hover:text-green-800"
-                >
-                  ↻ Refresh
-                </button>
+              <div className="mb-2">
+                <div className="text-2xl font-bold text-[#197749] bg-white border border-amber-50 mb-2">
+                  {captcha}
+                </div>
               </div>
+            </div>
+            <div className="text-left flex items-center gap-2">
+              <label className="block text-sm text-gray-700 text-right text-nowrap w-[20%] font-medium mb-1">
+                Enter Verification Code Shown
+              </label>
               <input
                 type="text"
-                placeholder="Enter Verification Code Shown"
                 value={inputCaptcha}
                 onChange={(e) => setInputCaptcha(e.target.value)}
-                className="border border-gray-300 rounded-md p-2 text-sm focus:ring-2 focus:ring-green-400 focus:outline-none"
+                className="w-full border border-gray-300 rounded p-2 text-sm focus:ring-2 focus:ring-green-400 focus:outline-none"
                 required
               />
             </div>
 
             {/* Submit */}
-            <button
-              type="submit"
-              disabled={loading}
-              className={`w-full text-white font-semibold py-2 rounded-md text-sm ${
-                loading 
-                  ? 'bg-gray-400 cursor-not-allowed' 
-                  : 'bg-[#197749] hover:bg-[#15633D]'
-              }`}
-            >
-              {loading ? 'SUBMITTING...' : 'SUBMIT'}
-            </button>
+            <div className="flex justify-center">
+              <button
+                type="submit"
+                disabled={loading}
+                className={`px-8 py-2 text-white font-semibold rounded text-sm ${
+                  loading
+                    ? "bg-gray-400 cursor-not-allowed"
+                    : "bg-[#197749] hover:bg-[#15633D]"
+                }`}
+              >
+                {loading ? "SUBMITTING..." : "SUBMIT"}
+              </button>
+            </div>
           </form>
 
           {/* Links */}
-          <div className="flex justify-center mt-3 text-sm text-[#197749] gap-3 flex-wrap">
-            <button className="hover:underline">RESET PASSWORD !!</button>
-          </div>
-
-          <div className="flex justify-center mt-1 text-sm text-[#197749] gap-2 flex-wrap">
-            <button className="font-semibold hover:underline text-blue-800">
-              FIRST TIME LOGIN
-            </button>
-            <span>|</span>
-            <button className="hover:underline text-[#197749]">
-              NEW USER SIGN UP HERE !
+          <div className="text-center mt-4">
+            <button className="text-sm text-[#197749] font-semibold hover:text-[#15633D]">
+              RESET PASSWORD !!
             </button>
           </div>
 
-          <p className="text-red-600 text-[13px] font-semibold mt-4 leading-5 text-center">
-            For any queries please mail us to{" "}
-            <span className="uppercase">TG_CTDHELPDESK@TGCT.GOV.IN</span>
-            <br />
-            or call to <span className="text-red-700 font-bold">040-24600173</span>
-          </p>
+          <div className="text-center mt-2">
+            <button className="text-sm text-blue-600 font-semibold hover:text-blue-800">
+              FIRST TIME LOGIN{" "}
+              <span className="text-[#197749] no-underline">
+                NEW USER SIGN UP HERE !
+              </span>
+            </button>
+          </div>
+
+          <div className="text-center mt-4">
+            <p className="text-sm text-red-600 font-semibold">
+              For any queries please mail us to{" "}
+              <span className="text-[#197749] font-semibold">
+                TG_CTDHELPDESK@TGCT.GOV.IN
+              </span>
+            </p>
+            <p className="text-sm text-red-600">
+              or call to{" "}
+              <span className="text-red-600 font-semibold">040-24600173</span>
+            </p>
+          </div>
         </div>
       </main>
 
