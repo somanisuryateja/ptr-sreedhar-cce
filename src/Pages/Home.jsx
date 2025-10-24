@@ -27,6 +27,8 @@ import {
   FaArrowCircleRight,
 } from "react-icons/fa";
 import "../index.css";
+import { MdArrowForward } from "react-icons/md";
+import { MdPhone } from "react-icons/md";
 
 /* -------------------------- Small UI helpers -------------------------- */
 const SectionCard = ({ title, bg = "bg-white", children, className = "" }) => (
@@ -98,9 +100,7 @@ const ColoredTile = ({
 
 const ArrowItem = ({ children }) => (
   <li className="flex items-start gap-2 py-1.5">
-    <svg width="16" height="16" viewBox="0 0 24 24" className="mt-0.5">
-      <path d="M8 5l8 7-8 7" fill="none" stroke="#0ea5e9" strokeWidth="2" />
-    </svg>
+    <MdArrowForward className="mt-0.5 text-sky-500" size={16} />
     <span className="text-[13px] text-slate-700">{children}</span>
   </li>
 );
@@ -216,7 +216,18 @@ const ImageSlideshow = () => {
 const Home = () => {
   const navigate = useNavigate();
 
-  // Accordion data with icons
+  // Check if user is already authenticated and redirect to dashboard
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const user = localStorage.getItem("user");
+
+    if (token && user) {
+      // User is already authenticated, redirect to dashboard
+      navigate("/dashboard", { replace: true });
+    }
+  }, [navigate]);
+
+  // Accordion data
   const accordionData = [
     {
       title: "Alcoholic Liquor & Petroleum Products",

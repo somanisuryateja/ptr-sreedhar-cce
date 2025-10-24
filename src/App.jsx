@@ -11,22 +11,62 @@ import PaymentGateway from "./Components/PaymentGateway";
 import BankTransactionSuccess from "./Components/BankTransactionSuccess";
 import PaymentSuccess from "./Components/PaymentSuccess";
 import PaymentFail from "./Components/PaymentFail";
+import ProtectedRoute from "./Components/ProtectedRoute";
 
 const App = () => {
   return (
     <Router>
       <Routes>
+        {/* Public routes - no authentication required */}
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/returns" element={<ReturnsEntry />} />
-        <Route path="/epayment" element={<EPayment />} />
-        <Route path="/epayment-confirmation" element={<EPaymentConfirmation />} />
-        <Route path="/ifmis-payment" element={<IFMISPayment />} />
-        <Route path="/payment-gateway" element={<PaymentGateway />} />
-        <Route path="/bank-transaction-success" element={<BankTransactionSuccess />} />
-        <Route path="/payment-success" element={<PaymentSuccess />} />
-        <Route path="/payment-fail" element={<PaymentFail />} />
+        
+        {/* Protected routes - authentication required */}
+        <Route path="/dashboard" element={
+          <ProtectedRoute>
+            <Dashboard />
+          </ProtectedRoute>
+        } />
+        <Route path="/returns" element={
+          <ProtectedRoute>
+            <ReturnsEntry />
+          </ProtectedRoute>
+        } />
+        <Route path="/epayment" element={
+          <ProtectedRoute>
+            <EPayment />
+          </ProtectedRoute>
+        } />
+        <Route path="/epayment-confirmation" element={
+          <ProtectedRoute>
+            <EPaymentConfirmation />
+          </ProtectedRoute>
+        } />
+        <Route path="/ifmis-payment" element={
+          <ProtectedRoute>
+            <IFMISPayment />
+          </ProtectedRoute>
+        } />
+        <Route path="/payment-gateway" element={
+          <ProtectedRoute>
+            <PaymentGateway />
+          </ProtectedRoute>
+        } />
+        <Route path="/bank-transaction-success" element={
+          <ProtectedRoute>
+            <BankTransactionSuccess />
+          </ProtectedRoute>
+        } />
+        <Route path="/payment-success" element={
+          <ProtectedRoute>
+            <PaymentSuccess />
+          </ProtectedRoute>
+        } />
+        <Route path="/payment-fail" element={
+          <ProtectedRoute>
+            <PaymentFail />
+          </ProtectedRoute>
+        } />
       </Routes>
     </Router>
   );

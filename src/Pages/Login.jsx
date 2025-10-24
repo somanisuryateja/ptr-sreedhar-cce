@@ -19,6 +19,12 @@ const Login = () => {
     setCaptcha(newCaptcha);
   };
 
+  // Clear authentication data on component mount (logout functionality)
+  useEffect(() => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+  }, []);
+
   // Draw captcha on canvas
   useEffect(() => {
     generateCaptcha();

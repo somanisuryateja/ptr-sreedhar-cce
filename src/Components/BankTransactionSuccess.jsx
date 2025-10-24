@@ -7,7 +7,7 @@ const BankTransactionSuccess = () => {
   const navigate = useNavigate();
   const { paymentData, bankDetails, transactionDetails } = state || {};
   const [storedTransaction, setStoredTransaction] = useState(null);
-  const [countdown, setCountdown] = useState(50);
+  const [countdown, setCountdown] = useState(3000); // 50 minutes = 3000 seconds
   const [transactionRefs, setTransactionRefs] = useState({
     bankRef: null,
     crn: null,
@@ -89,7 +89,7 @@ const BankTransactionSuccess = () => {
           bankTimestamp: transactionDetails.timestamp,
           
           // Essential tracking fields
-          etaxPaymentReference: paymentData?.paymentId || transactionDetails?.bankRef,
+          etaxPaymentReference: transactionDetails?.ctdTransactionId || paymentData?.paymentId,
           paymentId: paymentData?.paymentId
         };
 
@@ -182,7 +182,7 @@ const BankTransactionSuccess = () => {
           <div className="bg-[#E8F9E8] border-b border-gray-300 text-[#066d0a] p-3 text-sm">
             <p>
               ✅ Please don't close or refresh the page. You will be auto-redirected to
-              the portal in <b className="text-red-600 font-bold text-lg">{countdown}</b> secs or click on "Complete transaction" to proceed.
+              the portal in <b className="text-red-600 font-bold text-lg">{Math.floor(countdown / 60)}:{(countdown % 60).toString().padStart(2, '0')}</b> (minutes:seconds) or click on "Complete transaction" to proceed.
             </p>
           </div>
 
@@ -203,7 +203,7 @@ const BankTransactionSuccess = () => {
                 </tr>
                 <tr>
                   <td className="font-medium py-1">E-Tax Payment Reference</td>
-                  <td className="font-mono">{paymentData?.paymentId || transactionDetails?.bankRef || "N/A"}</td>
+                  <td className="font-mono">{transactionDetails?.ctdTransactionId || paymentData?.paymentId || "N/A"}</td>
                 </tr>
                 <tr>
                   <td className="font-medium py-1">Account Number</td>
