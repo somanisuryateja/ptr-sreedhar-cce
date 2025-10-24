@@ -5,7 +5,7 @@ import API_BASE_URL from "../utils/api";
 const PaymentGateway = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { paymentData, selectedBank, challanNo, ddocode, hoa } = location.state || {};
+  const { paymentData, selectedBank, challanNo, ddocode, hoa, ctdTransactionId } = location.state || {};
   
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -99,7 +99,8 @@ const PaymentGateway = () => {
               ddocode: ddocode,
               hoa: hoa,
               bankRef: result.bankRef,
-              timestamp: new Date().toLocaleString()
+              timestamp: new Date().toLocaleString(),
+              ctdTransactionId: ctdTransactionId
             }
           } 
         });
@@ -193,14 +194,14 @@ const PaymentGateway = () => {
           <form onSubmit={handleBankLogin} className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Username/Account Number
+                User ID<span className="text-red-500">*</span>
               </label>
               <input
                 type="text"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Enter your username or account number"
+                placeholder="Enter user ID"
                 required
               />
             </div>

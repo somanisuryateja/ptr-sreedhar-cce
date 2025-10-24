@@ -7,7 +7,7 @@ const EPaymentConfirmation = () => {
   const navigate = useNavigate();
   
   // Get payment data from navigation state
-  const { paymentData, paymentId, submittedAt } = location.state || {};
+  const { paymentData, paymentId, ctdTransactionId, submittedAt } = location.state || {};
   
   const handleMakePayment = () => {
     // Navigate to IFMIS payment gateway with payment data
@@ -15,6 +15,7 @@ const EPaymentConfirmation = () => {
       state: {
         paymentData: paymentData,
         paymentId: paymentId,
+        ctdTransactionId: ctdTransactionId,
         submittedAt: submittedAt
       }
     });
@@ -34,10 +35,10 @@ const EPaymentConfirmation = () => {
           <tbody>
             <tr>
               <td className="border border-gray-300 px-3 py-2 w-1/3 font-medium">
-                Payment ID
+                CTD Transaction ID
               </td>
               <td className="border border-gray-300 px-3 py-2">
-                {paymentId || "N/A"}
+                {ctdTransactionId || "N/A"}
               </td>
             </tr>
 

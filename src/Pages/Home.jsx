@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../Components/Header";
 import GreenNavBar from "../Components/GreenNavBar";
+import { MdArrowForward } from 'react-icons/md';
+import { MdPhone } from 'react-icons/md';
 
 /* -------------------------- Small UI helpers -------------------------- */
 const SectionCard = ({ title, bg = "bg-white", children, className = "" }) => (
@@ -34,9 +36,7 @@ const ColoredTile = ({ title, subtitle, icon, className = "" }) => (
 
 const ArrowItem = ({ children }) => (
   <li className="flex items-start gap-2 py-1.5">
-    <svg width="16" height="16" viewBox="0 0 24 24" className="mt-0.5">
-      <path d="M8 5l8 7-8 7" fill="none" stroke="#0ea5e9" strokeWidth="2" />
-    </svg>
+    <MdArrowForward className="mt-0.5 text-sky-500" size={16} />
     <span className="text-[13px] text-slate-700">{children}</span>
   </li>
 );
@@ -44,6 +44,17 @@ const ArrowItem = ({ children }) => (
 /* ------------------------------ Page ------------------------------ */
 const Home = () => {
   const navigate = useNavigate();
+
+  // Check if user is already authenticated and redirect to dashboard
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    const user = localStorage.getItem('user');
+    
+    if (token && user) {
+      // User is already authenticated, redirect to dashboard
+      navigate('/dashboard', { replace: true });
+    }
+  }, [navigate]);
   
   // Accordion data
   const accordionData = [
@@ -330,9 +341,7 @@ const Home = () => {
               <div className="rounded-lg border border-gray-200 bg-emerald-600 text-white p-6 shadow-sm">
                 <div className="flex items-center gap-4">
                   <div className="shrink-0">
-                    <svg viewBox="0 0 24 24" width="42" height="42" fill="none" stroke="currentColor" strokeWidth="1.8">
-                      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.86 19.86 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.86 19.86 0 0 1 2.09 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.9.3 1.78.54 2.64a2 2 0 0 1-.45 2.11L8.09 8.91a16 16 0 0 0 6 6l.44-.11a2 2 0 0 1 2.11.45c.86.24 1.74.42 2.64.54A2 2 0 0 1 22 16.92z" />
-                    </svg>
+                    <MdPhone size={42} className="text-white" />
                   </div>
                   <div>
                     <h4 className="text-lg font-semibold">Dealer’s Help Desk</h4>

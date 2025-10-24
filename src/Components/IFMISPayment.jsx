@@ -6,7 +6,7 @@ import API_BASE_URL from "../utils/api";
 const IFMISPayment = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { paymentData, paymentId } = location.state || {};
+  const { paymentData, paymentId, ctdTransactionId, submittedAt } = location.state || {};
 
   const [selectedBank, setSelectedBank] = useState("");
   const [banks, setBanks] = useState([]);
@@ -74,7 +74,8 @@ const IFMISPayment = () => {
         selectedBank: selectedBank,
         challanNo: generatedNumbers.challanNo,
         ddocode: generatedNumbers.ddocode,
-        hoa: generatedNumbers.hoa
+        hoa: generatedNumbers.hoa,
+        ctdTransactionId: ctdTransactionId
       }
     });
   };

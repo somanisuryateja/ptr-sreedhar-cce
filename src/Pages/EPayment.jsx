@@ -171,6 +171,7 @@ const EPayment = () => {
           state: { 
             paymentData: paymentData,
             paymentId: result.paymentId,
+            ctdTransactionId: result.ctdTransactionId, // Include CTD Transaction ID
             submittedAt: result.submittedAt
           } 
         });
