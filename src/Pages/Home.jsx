@@ -188,7 +188,7 @@ const Home = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4">
             <div className="md:col-span-2">
               {/* hero image (replace src with your preferred banner) */}
-              <div className="aspect-[16/7] w-full overflow-hidden rounded-lg border border-gray-200 bg-slate-100">
+              <div className="w-full overflow-hidden rounded-lg border border-gray-200 bg-slate-100" style={{ aspectRatio: '16/7' }}>
                 <img
                   src="https://images.unsplash.com/photo-1603262110263-fb0112e7cc33?q=80&w=1600&auto=format&fit=crop"
                   alt="Department Building"
