@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import LoginHeader from "../Components/LoginHeader";
 import GreenNavBar from "../Components/GreenNavBar";
 import API_BASE_URL from "../utils/api";
+import { authenticatedFetch, clearAuth } from "../utils/auth";
 
 /* helpers */
 const fmt = (n) => (isNaN(n) ? "" : Number(n).toLocaleString("en-IN"));
@@ -113,21 +114,9 @@ const ReturnsEntry = () => {
           submittedAt: new Date().toISOString()
         };
         
-        // Get token from localStorage
-        const token = localStorage.getItem('token');
-        if (!token) {
-          alert("Session expired. Please login again.");
-          navigate('/login');
-          return;
-        }
-        
-        // Send to backend
-        const response = await fetch(`${API_BASE_URL}/api/submit-return`, {
+        // Send to backend with automatic token validation
+        const response = await authenticatedFetch(`${API_BASE_URL}/api/submit-return`, {
           method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          },
           body: JSON.stringify(returnData)
         });
         
@@ -145,6 +134,10 @@ const ReturnsEntry = () => {
         }
         
       } catch (error) {
+        if (error.message === 'Session expired') {
+          // User will be redirected automatically by authenticatedFetch
+          return;
+        }
         setSubmitMessage('Network error. Please check your connection and try again.');
       } finally {
         setIsSubmitting(false);
