@@ -57,15 +57,15 @@ const PaymentGateway = () => {
     }
   }, [selectedBank]);
 
-  // Bank logos mapping (only for banks in Annexure 2)
+  // Bank logos mapping (using local images from public folder)
   const bankLogos = {
-    "State Bank of India": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cc/SBI-logo.svg/512px-SBI-logo.svg.png",
-    "HDFC Bank": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/HDFC_Bank_Logo.svg/512px-HDFC_Bank_Logo.svg.png",
-    "ICICI Bank": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/ICICI_Bank_logo.svg/512px-ICICI_Bank_logo.svg.png",
-    "Axis Bank": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Axis_Bank_logo.svg/512px-Axis_Bank_logo.svg.png",
-    "Kotak Mahindra Bank": "https://upload.wikimedia.org/wikipedia/en/thumb/3/32/Kotak_Mahindra_Bank_logo.svg/512px-Kotak_Mahindra_Bank_logo.svg.png",
-    "Bank of Baroda": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Bank_of_Baroda_logo.svg/512px-Bank_of_Baroda_logo.svg.png",
-    "Punjab National Bank": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Punjab_National_Bank_logo.svg/512px-Punjab_National_Bank_logo.svg.png"
+    "State Bank of India": "/assets/banks/sbi.png",
+    "HDFC Bank": "/assets/banks/hdfc.png",
+    "ICICI Bank": "/assets/banks/icici.png", // You may need to add this image
+    "Axis Bank": "https://www.axisbank.com/assets/images/logo-white.png",
+    "Kotak Mahindra Bank": "/assets/banks/kotak.png", // You may need to add this image
+    "Bank of Baroda": "https://bankofbaroda.bank.in/-/media/project/bob/countrywebsites/india/icons/bob-logo.svg",
+    "Punjab National Bank": "https://ibanking.pnb.bank.in/web/L001/images/logo.jpg"
   };
 
   // Bank colors mapping (only for banks in Annexure 2)
@@ -73,10 +73,10 @@ const PaymentGateway = () => {
     "State Bank of India": "#1F4E79",
     "HDFC Bank": "#FF6600",
     "ICICI Bank": "#F47735",
-    "Axis Bank": "#D71E2B",
+    "Axis Bank": "#861f41",
     "Kotak Mahindra Bank": "#C00000",
-    "Bank of Baroda": "#FFD700",
-    "Punjab National Bank": "#FF6B35"
+    "Bank of Baroda": "#f26719",
+    "Punjab National Bank": "#91203e"
   };
 
   const handleBankLogin = async (e) => {
@@ -197,18 +197,30 @@ const PaymentGateway = () => {
     <div className="min-h-screen bg-white flex flex-col">
       {/* Bank-specific header */}
       <header 
-        className="text-white flex justify-between items-center px-6 py-3"
+        className="text-white flex justify-between items-center px-6 py-4"
         style={{ backgroundColor: getBankColor() }}
       >
-        <div className="flex items-center gap-2">
-          <img
-            src={getBankLogo()}
-            alt={`${selectedBank} Logo`}
-            className="h-8"
-          />
-          <h1 className="font-semibold text-lg">Secure Payment Gateway</h1>
+        <div className="flex items-center gap-3">
+          <div className={`p-2 rounded-lg ${
+            selectedBank === "Bank of Baroda" || selectedBank === "Punjab National Bank" || selectedBank === "Axis Bank"
+              ? "" 
+              : "bg-white shadow-sm"
+          }`}>
+            <img
+              src={getBankLogo()}
+              alt={`${selectedBank} Logo`}
+              className="h-10 w-auto object-contain"
+            />
+          </div>
+          <div>
+            <h1 className="font-semibold text-lg">Secure Payment Gateway</h1>
+            <p className="text-sm opacity-90">Powered by {selectedBank}</p>
+          </div>
         </div>
-        <p className="font-medium">{selectedBank}</p>
+        <div className="text-right">
+          <p className="font-medium text-lg">{selectedBank}</p>
+          <p className="text-sm opacity-90">Banking Partner</p>
+        </div>
       </header>
 
       {/* Payment Details */}
@@ -222,9 +234,29 @@ const PaymentGateway = () => {
 
         {/* Bank Login Form */}
         <div className="p-6">
-          <h3 className="text-lg font-semibold mb-4 text-gray-900">
-            {selectedBank} - Secure Login
-          </h3>
+          <div className="flex items-center gap-3 mb-6">
+            <div className={`p-2 rounded-lg ${
+              selectedBank === "Bank of Baroda" || selectedBank === "Punjab National Bank" || selectedBank === "Axis Bank"
+                ? "" 
+                : "bg-gray-100"
+            }`} style={
+              selectedBank === "Bank of Baroda" ? { backgroundColor: "#f26719" } :
+              selectedBank === "Punjab National Bank" ? { backgroundColor: "#91203e" } :
+              selectedBank === "Axis Bank" ? { backgroundColor: "#861f41" } : {}
+            }>
+              <img
+                src={getBankLogo()}
+                alt={`${selectedBank} Logo`}
+                className="h-8 w-auto object-contain"
+              />
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold text-gray-900">
+                {selectedBank} - Secure Login
+              </h3>
+              <p className="text-sm text-gray-600">Enter your banking credentials</p>
+            </div>
+          </div>
           
           {error && (
             <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">

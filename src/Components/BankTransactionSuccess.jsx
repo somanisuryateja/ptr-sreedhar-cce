@@ -7,7 +7,7 @@ const BankTransactionSuccess = () => {
   const navigate = useNavigate();
   const { paymentData, bankDetails, transactionDetails } = state || {};
   const [storedTransaction, setStoredTransaction] = useState(null);
-  const [countdown, setCountdown] = useState(3000); // 50 minutes = 3000 seconds
+  const [countdown, setCountdown] = useState(60); // 60 seconds
   const [transactionRefs, setTransactionRefs] = useState({
     bankRef: null,
     crn: null,
@@ -24,15 +24,15 @@ const BankTransactionSuccess = () => {
     return maskedPart + lastThree;
   };
 
-  // Bank logos mapping
+  // Bank logos mapping (using local images from public folder)
   const bankLogos = {
-    "State Bank of India": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cc/SBI-logo.svg/512px-SBI-logo.svg.png",
-    "HDFC Bank": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/HDFC_Bank_Logo.svg/512px-HDFC_Bank_Logo.svg.png",
-    "ICICI Bank": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/ICICI_Bank_logo.svg/512px-ICICI_Bank_logo.svg.png",
-    "Axis Bank": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Axis_Bank_logo.svg/512px-Axis_Bank_logo.svg.png",
-    "Kotak Mahindra Bank": "https://upload.wikimedia.org/wikipedia/en/thumb/3/32/Kotak_Mahindra_Bank_logo.svg/512px-Kotak_Mahindra_Bank_logo.svg.png",
-    "Bank of Baroda": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Bank_of_Baroda_logo.svg/512px-Bank_of_Baroda_logo.svg.png",
-    "Punjab National Bank": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Punjab_National_Bank_logo.svg/512px-Punjab_National_Bank_logo.svg.png"
+    "State Bank of India": "/assets/banks/sbi.png",
+    "HDFC Bank": "/assets/banks/hdfc.png",
+    "ICICI Bank": "/assets/banks/icici.png", // You may need to add this image
+    "Axis Bank": "https://www.axisbank.com/assets/images/logo-white.png",
+    "Kotak Mahindra Bank": "/assets/banks/kotak.png", // You may need to add this image
+    "Bank of Baroda": "https://bankofbaroda.bank.in/-/media/project/bob/countrywebsites/india/icons/bob-logo.svg",
+    "Punjab National Bank": "https://ibanking.pnb.bank.in/web/L001/images/logo.jpg"
   };
 
   // Bank colors mapping
@@ -40,10 +40,10 @@ const BankTransactionSuccess = () => {
     "State Bank of India": "#1F4E79",
     "HDFC Bank": "#FF6600",
     "ICICI Bank": "#F47735",
-    "Axis Bank": "#D71E2B",
+    "Axis Bank": "#861f41",
     "Kotak Mahindra Bank": "#C00000",
-    "Bank of Baroda": "#FFD700",
-    "Punjab National Bank": "#FF6B35"
+    "Bank of Baroda": "#f26719",
+    "Punjab National Bank": "#91203e"
   };
 
   // Initialize transaction references only once
@@ -179,18 +179,30 @@ const BankTransactionSuccess = () => {
     <div className="min-h-screen bg-white flex flex-col">
       {/* Header */}
       <header 
-        className="text-white flex justify-between items-center px-6 py-3"
+        className="text-white flex justify-between items-center px-6 py-4"
         style={{ backgroundColor: getBankColor() }}
       >
-        <div className="flex items-center gap-2">
-          <img
-            src={getBankLogo()}
-            alt={getBankName()}
-            className="h-8"
-          />
-          <h1 className="font-semibold text-lg">eTAX</h1>
+        <div className="flex items-center gap-3">
+          <div className={`p-2 rounded-lg ${
+            getBankName() === "Bank of Baroda" || getBankName() === "Punjab National Bank" || getBankName() === "Axis Bank"
+              ? "" 
+              : "bg-white shadow-sm"
+          }`}>
+            <img
+              src={getBankLogo()}
+              alt={getBankName()}
+              className="h-10 w-auto object-contain"
+            />
+          </div>
+          <div>
+            <h1 className="font-semibold text-lg">eTAX Payment System</h1>
+            <p className="text-sm opacity-90">Transaction Processing</p>
+          </div>
         </div>
-        <span className="text-sm font-medium">{getBankName()}</span>
+        <div className="text-right">
+          <span className="text-lg font-medium">{getBankName()}</span>
+          <p className="text-sm opacity-90">Banking Partner</p>
+        </div>
       </header>
 
       {/* Main Content */}
@@ -200,7 +212,7 @@ const BankTransactionSuccess = () => {
           <div className="bg-[#E8F9E8] border-b border-gray-300 text-[#066d0a] p-3 text-sm">
             <p>
               ✅ Please don't close or refresh the page. You will be auto-redirected to
-              the portal in <b className="text-red-600 font-bold text-lg">{Math.floor(countdown / 60)}:{(countdown % 60).toString().padStart(2, '0')}</b> (minutes:seconds) or click on "Complete transaction" to proceed.
+              the portal in <b className="text-red-600 font-bold text-lg">{countdown}</b> seconds or click on "Complete transaction" to proceed.
             </p>
           </div>
 
