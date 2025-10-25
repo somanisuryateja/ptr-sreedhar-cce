@@ -315,19 +315,19 @@ const ReturnsEntry = () => {
                           placeholder="0"
                         />
                       </td>
-                      <td className="px-3 py-2 border border-gray-300 text-center">
-                        {r.payable > 0 ? (
-                          <span className="text-sm font-medium">₹ {fmt(r.payable)}</span>
-                        ) : (
-                          <button
-                            onClick={() => calcRow(idx)}
-                            className="text-sky-700 hover:underline text-sm"
-                            type="button"
-                          >
-                            Calculate
-                          </button>
-                        )}
-                      </td>
+                       <td className="px-3 py-2 border border-gray-300 text-center">
+                         {r.employees && r.employees !== "" ? (
+                           <span className="text-sm font-medium">₹ {fmt(r.payable)}</span>
+                         ) : (
+                           <button
+                             onClick={() => calcRow(idx)}
+                             className="text-sky-700 hover:underline text-sm"
+                             type="button"
+                           >
+                             Calculate
+                           </button>
+                         )}
+                       </td>
                     </tr>
                   ))}
 
