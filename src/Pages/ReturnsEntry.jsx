@@ -43,6 +43,8 @@ const ReturnsEntry = () => {
   const [returnType, setReturnType] = useState("Monthly");
   const [taxPeriod, setTaxPeriod] = useState(""); // dropdown selection
   const [rows, setRows] = useState(DEFAULT_PAYRANGES);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitMessage, setSubmitMessage] = useState("");
   
   // Get tax period options
   const taxPeriodOptions = getTaxPeriodOptions();
@@ -87,14 +89,11 @@ const ReturnsEntry = () => {
       return;
     }
     
-    // Show the exact alert as in the screenshot FIRST
-    const userChoice = window.confirm(
-      "Your Return has been submitted Success - Do you want to file another month return? - If Yes - Click OK"
-    );
+    // Set loading state
+    setIsSubmitting(true);
+    setSubmitMessage("Submitting return...");
     
-    // Only proceed with API call if user clicked OK
-    if (userChoice) {
-      try {
+    try {
         // Prepare return data
         const returnData = {
           ptin: dealer.ptin,
@@ -135,20 +134,23 @@ const ReturnsEntry = () => {
         const result = await response.json();
         
         if (response.ok) {
+          setSubmitMessage("Return submitted successfully!");
           // Reset the form to show a new return entry screen
           setReturnType("Monthly");
           setTaxPeriod("");
           setRows(DEFAULT_PAYRANGES);
           // Form will be reset and user can enter new data
         } else {
-          alert(`Error: ${result.message || 'Failed to submit return'}`);
+          setSubmitMessage(`Error: ${result.message || 'Failed to submit return'}`);
         }
         
       } catch (error) {
-        alert('Network error. Please check your connection and try again.');
+        setSubmitMessage('Network error. Please check your connection and try again.');
+      } finally {
+        setIsSubmitting(false);
+        // Clear message after 3 seconds
+        setTimeout(() => setSubmitMessage(""), 3000);
       }
-    }
-    // If user clicked Cancel, stay on the same screen (no action needed)
   };
 
   // keyboard Enter inside any "employees" field calculates row
@@ -281,11 +283,8 @@ const ReturnsEntry = () => {
                     <th className="px-3 py-2 border border-gray-300">
                       No. of Employees
                     </th>
-                    <th className="px-3 py-2 border border-gray-300">
-                      Tax Payable
-                    </th>
                     <th className="px-3 py-2 border border-gray-300 w-36">
-                      Action
+                      Tax Payable / Action
                     </th>
                   </tr>
                 </thead>
@@ -298,10 +297,10 @@ const ReturnsEntry = () => {
                       <td className="px-3 py-2 border border-gray-300">
                         <span className="text-sm">{r.label}</span>
                       </td>
-                      <td className="px-3 py-2 border border-gray-300">
-                        <span className="text-sm text-right block">{r.rate}</span>
+                      <td className="px-3 py-2 border border-gray-300 text-center">
+                        <span className="text-sm">{r.rate}</span>
                       </td>
-                      <td className="px-3 py-2 border border-gray-300">
+                      <td className="px-3 py-2 border border-gray-300 text-center">
                         <input
                           type="text"
                           value={r.employees}
@@ -312,21 +311,22 @@ const ReturnsEntry = () => {
                               e.preventDefault();
                             }
                           }}
-                          className="w-28 border border-gray-300 rounded px-2 py-1 text-right"
+                          className="w-28 border border-gray-300 rounded px-2 py-1 text-center"
                           placeholder="0"
                         />
                       </td>
-                      <td className="px-3 py-2 border border-gray-300 text-right">
-                        ₹ {fmt(r.payable)}
-                      </td>
-                      <td className="px-3 py-2 border border-gray-300">
-                        <button
-                          onClick={() => calcRow(idx)}
-                          className="text-sky-700 hover:underline"
-                          type="button"
-                        >
-                          Calculate
-                        </button>
+                      <td className="px-3 py-2 border border-gray-300 text-center">
+                        {r.payable > 0 ? (
+                          <span className="text-sm font-medium">₹ {fmt(r.payable)}</span>
+                        ) : (
+                          <button
+                            onClick={() => calcRow(idx)}
+                            className="text-sky-700 hover:underline text-sm"
+                            type="button"
+                          >
+                            Calculate
+                          </button>
+                        )}
                       </td>
                     </tr>
                   ))}
@@ -336,22 +336,39 @@ const ReturnsEntry = () => {
                     <td className="px-3 py-2 border border-gray-300" colSpan={4}>
                       Total Payable Amount
                     </td>
-                    <td className="px-3 py-2 border border-gray-300 text-right">
+                    <td className="px-3 py-2 border border-gray-300 text-center">
                       ₹ {fmt(totalPayable)}
                     </td>
-                    <td className="px-3 py-2 border border-gray-300"></td>
                   </tr>
                 </tbody>
               </table>
             </div>
 
-            <div className="px-3 py-3 border-t border-gray-300 flex justify-center">
-              <button
-                onClick={handleSubmit}
-                className="bg-[#0D784D] hover:bg-[#09623E] text-white px-6 py-1.5 rounded text-sm"
-              >
-                Submit
-              </button>
+            <div className="px-3 py-3 border-t border-gray-300">
+              {/* Status Message */}
+              {submitMessage && (
+                <div className={`text-center mb-3 p-2 rounded text-sm ${
+                  submitMessage.includes('Error') || submitMessage.includes('Network error') 
+                    ? 'bg-red-100 text-red-700' 
+                    : 'bg-green-100 text-green-700'
+                }`}>
+                  {submitMessage}
+                </div>
+              )}
+              
+              <div className="flex justify-center">
+                <button
+                  onClick={handleSubmit}
+                  disabled={isSubmitting}
+                  className={`px-6 py-1.5 rounded text-sm font-['Inter'] ${
+                    isSubmitting 
+                      ? 'bg-gray-400 cursor-not-allowed' 
+                      : 'bg-[#0D784D] hover:bg-[#09623E] text-white'
+                  }`}
+                >
+                  {isSubmitting ? 'Submitting...' : 'Submit'}
+                </button>
+              </div>
             </div>
           </div>
         </div>
