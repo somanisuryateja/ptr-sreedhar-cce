@@ -14,6 +14,16 @@ const BankTransactionSuccess = () => {
     timestamp: null
   });
 
+  // Function to mask account number - show only last 3 digits
+  const maskAccountNumber = (accountNumber) => {
+    if (!accountNumber || accountNumber === "N/A") return "N/A";
+    if (accountNumber.length <= 3) return accountNumber;
+    
+    const lastThree = accountNumber.slice(-3);
+    const maskedPart = '•'.repeat(accountNumber.length - 3);
+    return maskedPart + lastThree;
+  };
+
   // Bank logos mapping
   const bankLogos = {
     "State Bank of India": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cc/SBI-logo.svg/512px-SBI-logo.svg.png",
@@ -42,7 +52,15 @@ const BankTransactionSuccess = () => {
       // Generate these values only once when component mounts
       const bankRef = transactionDetails?.bankRef || Math.floor(1000000000 + Math.random() * 9000000000).toString();
       const crn = storedTransaction?.crn || Math.floor(100000000000 + Math.random() * 900000000000).toString();
-      const timestamp = transactionDetails?.timestamp || new Date().toLocaleString();
+      const timestamp = transactionDetails?.timestamp || new Date().toLocaleString('en-US', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: true
+      });
       
       setTransactionRefs({
         bankRef: bankRef,
@@ -207,7 +225,7 @@ const BankTransactionSuccess = () => {
                 </tr>
                 <tr>
                   <td className="font-medium py-1">Account Number</td>
-                  <td className="font-mono">{bankDetails?.accountNumber || "N/A"}</td>
+                  <td className="font-mono tracking-wider">{maskAccountNumber(bankDetails?.accountNumber)}</td>
                 </tr>
                 <tr>
                   <td className="font-medium py-1">Timestamp</td>

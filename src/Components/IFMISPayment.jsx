@@ -81,59 +81,63 @@ const IFMISPayment = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#E9EEF2] flex flex-col">
+    <div className="min-h-screen bg-white flex flex-col">
       {/* ===== HEADER ===== */}
       <IFMISHeader />
 
       {/* ===== MAIN CONTENT ===== */}
       <main className="flex-grow flex items-center justify-center py-12">
-        <div className="bg-white shadow-md rounded-md w-full max-w-lg p-8">
-          <h2 className="text-center text-2xl font-semibold text-gray-800 mb-2">
-            e-Payments
-          </h2>
+        <div className="bg-gray-100 shadow-md rounded-md w-full max-w-lg p-8 text-center">
+          <div className="border-2 border-dashed border-gray-400 p-4 mb-6">
+            <h2 className="text-center text-2xl font-semibold text-gray-800 mb-2 font-['Inter']">
+              e-Payments
+            </h2>
+          </div>
           <p className="text-center text-gray-500 text-sm mb-6">
             Make Payment Easy
           </p>
 
           {/* Details */}
-          <table className="w-full text-sm border-collapse">
+          <div className="flex justify-center">
+            <table className="text-sm border-collapse">
             <tbody>
                <tr>
-                 <td className="py-2 px-3 font-medium text-gray-700 w-1/3">
+                 <td className="py-2 px-3 font-medium text-gray-700 w-1/3 text-right">
                    Challan No
                  </td>
-                 <td className="py-2 px-3 text-gray-900">
+                 <td className="py-2 px-3 text-gray-900 text-left">
                    {generatedNumbers.challanNo || "6204422960"}
                  </td>
                </tr>
                <tr>
-                 <td className="py-2 px-3 font-medium text-gray-700">DDOCODE</td>
-                 <td className="py-2 px-3 text-gray-900">
+                 <td className="py-2 px-3 font-medium text-gray-700 text-right">DDOCODE</td>
+                 <td className="py-2 px-3 text-gray-900 text-left">
                    {generatedNumbers.ddocode || "25002303035"}
                  </td>
                </tr>
                <tr>
-                 <td className="py-2 px-3 font-medium text-gray-700">HOA</td>
-                 <td className="py-2 px-3 text-gray-900">
+                 <td className="py-2 px-3 font-medium text-gray-700 text-right">HOA</td>
+                 <td className="py-2 px-3 text-gray-900 text-left">
                    {generatedNumbers.hoa || "0028001070001000000NVN"}
                  </td>
                </tr>
               <tr>
-                <td className="py-2 px-3 font-medium text-gray-700">
+                <td className="py-2 px-3 font-medium text-gray-700 text-right">
                   Remitter
                 </td>
-                <td className="py-2 px-3 text-gray-900">
+                <td className="py-2 px-3 text-gray-900 text-left">
                   {paymentData?.name || "BASEMENT BAZAR PRIVATE LIMITED"}
                 </td>
               </tr>
               <tr>
-                <td className="py-2 px-3 font-medium text-gray-700">Amount</td>
-                <td className="py-2 px-3 text-gray-900 font-semibold">
+                <td className="py-2 px-3 font-medium text-gray-700 text-right">Amount</td>
+                <td className="py-2 px-3 text-gray-900 font-semibold text-left">
                   ₹{paymentData?.amount || "15000"}
                 </td>
               </tr>
             </tbody>
-          </table>
+            </table>
+          </div>
 
           {/* Bank Dropdown */}
           <div className="mt-6">

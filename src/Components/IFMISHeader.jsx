@@ -12,8 +12,8 @@ const IFMISHeader = () => {
             className="w-12 h-12 rounded-full object-cover border border-gray-400"
           />
           <div>
-            <p className="text-sm font-semibold">SRI REVANTH REDDY</p>
-            <p className="text-xs">Hon'ble Chief Minister</p>
+            <p className="text-sm font-semibold font-['Inter']">SRI REVANTH REDDY</p>
+            <p className="text-xs font-['Inter']">Hon'ble Chief Minister</p>
           </div>
         </div>
 
@@ -24,7 +24,7 @@ const IFMISHeader = () => {
             alt="IFMIS"
             className="mx-auto w-20"
           />
-          <p className="text-xs">Government of Telangana</p>
+          <p className="text-xs font-['Inter']">Government of Telangana</p>
         </div>
 
         {/* Right - Finance Minister */}
@@ -35,8 +35,8 @@ const IFMISHeader = () => {
             className="w-12 h-12 rounded-full object-cover border border-gray-400"
           />
           <div>
-            <p className="text-sm font-semibold">SRI T. HARISH RAO</p>
-            <p className="text-xs">Hon'ble Finance Minister</p>
+            <p className="text-sm font-semibold font-['Inter']">SRI T. HARISH RAO</p>
+            <p className="text-xs font-['Inter']">Hon'ble Finance Minister</p>
           </div>
         </div>
       </div>

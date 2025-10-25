@@ -16,10 +16,10 @@ const Header = () => {
           className="h-16 w-auto object-contain"
         />
         <div className="ml-2">
-          <h1 className="text-[#186638] font-bold  text-xl tracking-wide">
-            COMMERCIAL <span className="text-[#1a3c57] ">TAXES DEPARTMENT</span>
+          <h1 className="text-[#186638] font-bold text-xl tracking-wide font-['Inter']">
+            COMMERCIAL <span className="text-[#1a3c57]">TAXES DEPARTMENT</span>
           </h1>
-          <p className="text-gray-700 text-base font-medium">
+          <p className="text-gray-700 text-base font-medium font-['Inter']">
             Government of Telangana
           </p>
         </div>
@@ -32,11 +32,11 @@ const Header = () => {
           alt="Sri Anumula Revanth Reddy"
           className="h-16 w-auto object-cover rounded"
         />
-        <p className="text-[#184A66] text-sm font-semibold mt-1 text-center">
+        <p className="text-[#184A66] text-sm font-semibold mt-1 text-center font-['Inter']">
           SRI ANUMULA REVANTH REDDY
         </p>
-        <p className="text-gray-700 text-xs font-medium -mt-1 text-center">
-          Hon’ble Chief Minister
+        <p className="text-gray-700 text-xs font-medium -mt-1 text-center font-['Inter']">
+          Hon'ble Chief Minister
         </p>
       </div>
     </header>

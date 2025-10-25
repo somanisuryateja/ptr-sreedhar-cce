@@ -12,10 +12,12 @@ const PaymentGateway = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [bankDetails, setBankDetails] = useState(null);
+  const [bankDetailsLoading, setBankDetailsLoading] = useState(true);
 
   // Fetch bank details from backend (Annexure 2)
   useEffect(() => {
     const fetchBankDetails = async () => {
+      setBankDetailsLoading(true);
       try {
         const response = await fetch(`${API_BASE_URL}/api/bank-details`, {
           method: 'GET',
@@ -30,9 +32,23 @@ const PaymentGateway = () => {
           // Find the selected bank details
           const selectedBankDetails = bankData.find(bank => bank.bank === selectedBank);
           setBankDetails(selectedBankDetails);
+        } else {
+          // If API fails, create a default bank details object to prevent warning
+          setBankDetails({
+            bank: selectedBank,
+            accountNo: "N/A",
+            userId: "N/A"
+          });
         }
       } catch (error) {
-        // Handle error silently in production
+        // If network error, create a default bank details object to prevent warning
+        setBankDetails({
+          bank: selectedBank,
+          accountNo: "N/A", 
+          userId: "N/A"
+        });
+      } finally {
+        setBankDetailsLoading(false);
       }
     };
 
@@ -99,7 +115,15 @@ const PaymentGateway = () => {
               ddocode: ddocode,
               hoa: hoa,
               bankRef: result.bankRef,
-              timestamp: new Date().toLocaleString(),
+              timestamp: new Date().toLocaleString('en-US', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: true
+              }),
               ctdTransactionId: ctdTransactionId
             }
           } 
@@ -129,16 +153,33 @@ const PaymentGateway = () => {
     return bankColors[selectedBank] || "#C00000";
   };
 
-  // Show error if bank is not found in Annexure 2
-  if (!bankDetails && selectedBank) {
+  // Show loading while fetching bank details
+  if (bankDetailsLoading) {
+    return (
+      <div className="min-h-screen bg-white flex flex-col items-center justify-center p-6">
+        <div className="max-w-md w-full bg-white border border-gray-200 rounded-lg p-6 text-center">
+          <div className="text-4xl mb-4">⏳</div>
+          <h1 className="text-xl font-bold text-gray-800 mb-2 font-['Inter']">
+            Loading Bank Details
+          </h1>
+          <p className="text-gray-600 mb-4 font-['Inter']">
+            Please wait while we fetch your bank information...
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  // Show error if bank is not found in Annexure 2 (only after loading is complete)
+  if (!bankDetails && selectedBank && !bankDetailsLoading) {
     return (
       <div className="min-h-screen bg-white flex flex-col items-center justify-center p-6">
         <div className="max-w-md w-full bg-red-50 border border-red-200 rounded-lg p-6 text-center">
           <div className="text-4xl mb-4">❌</div>
-          <h1 className="text-xl font-bold text-red-800 mb-2">
+          <h1 className="text-xl font-bold text-red-800 mb-2 font-['Inter']">
             Bank Not Available
           </h1>
-          <p className="text-red-600 mb-4">
+          <p className="text-red-600 mb-4 font-['Inter']">
             The selected bank "{selectedBank}" is not available in our system.
           </p>
           <button

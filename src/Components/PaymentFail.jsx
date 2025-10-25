@@ -51,7 +51,15 @@ const PaymentFail = () => {
 
           {/* Timestamp */}
           <div className="mt-4 text-center text-sm text-gray-500">
-            Payment failed on: {new Date().toLocaleString()}
+            Payment failed on: {new Date().toLocaleString('en-US', {
+              year: 'numeric',
+              month: '2-digit',
+              day: '2-digit',
+              hour: '2-digit',
+              minute: '2-digit',
+              second: '2-digit',
+              hour12: true
+            })}
           </div>
         </div>
 

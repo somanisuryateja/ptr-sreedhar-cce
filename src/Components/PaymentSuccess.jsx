@@ -164,7 +164,7 @@ const PaymentSuccess = () => {
 
       {/* Main Content */}
       <main id="receipt-content" className="flex flex-col items-center justify-center py-10 px-4 bg-[#F5F8FB] flex-1">
-        <div className="bg-white shadow-md rounded-md w-full max-w-2xl border border-gray-200">
+        <div className="bg-white shadow-md rounded-md w-full max-w-2xl border border-gray-200 text-center">
           {/* Title */}
           <div className="text-center mt-8 mb-4">
             <h2 className="text-xl text-gray-600 mb-4">Make Payment Easy</h2>
@@ -174,51 +174,51 @@ const PaymentSuccess = () => {
               </div>
             </div>
             <p className="text-green-600 font-semibold text-lg mb-8">
-              Payment Completed Successfully!
+              Payment Done Successfully
             </p>
           </div>
 
           {/* Transaction Details Table */}
-          <div className="px-6 pb-6">
-            <table className="w-full border-collapse border border-gray-300">
+          <div className="px-6 pb-6 flex justify-center">
+            <table className="border-collapse">
               <tbody>
-                <tr className="border-b border-gray-300">
-                  <td className="py-3 px-4 font-medium text-gray-700 border-r border-gray-300">
+                <tr>
+                  <td className="py-3 px-4 font-medium text-gray-700 w-1/3 text-right">
                     Challan No
                   </td>
-                  <td className="py-3 px-4 text-gray-900">
+                  <td className="py-3 px-4 text-gray-900 text-left">
                     {transactionDetails?.challanNo || "N/A"}
                   </td>
                 </tr>
-                <tr className="border-b border-gray-300">
-                  <td className="py-3 px-4 font-medium text-gray-700 border-r border-gray-300">
+                <tr>
+                  <td className="py-3 px-4 font-medium text-gray-700 text-right">
                     Remitter
                   </td>
-                  <td className="py-3 px-4 text-gray-900">
+                  <td className="py-3 px-4 text-gray-900 text-left">
                     {paymentData?.name || "N/A"}
                   </td>
                 </tr>
-                <tr className="border-b border-gray-300">
-                  <td className="py-3 px-4 font-medium text-gray-700 border-r border-gray-300">
+                <tr>
+                  <td className="py-3 px-4 font-medium text-gray-700 text-right">
                     DDO Code
                   </td>
-                  <td className="py-3 px-4 text-gray-900">
+                  <td className="py-3 px-4 text-gray-900 text-left">
                     {transactionDetails?.ddocode || "N/A"}
                   </td>
                 </tr>
-                <tr className="border-b border-gray-300">
-                  <td className="py-3 px-4 font-medium text-gray-700 border-r border-gray-300">
+                <tr>
+                  <td className="py-3 px-4 font-medium text-gray-700 text-right">
                     HOA
                   </td>
-                  <td className="py-3 px-4 text-gray-900">
+                  <td className="py-3 px-4 text-gray-900 text-left">
                     {transactionDetails?.hoa || "N/A"}
                   </td>
                 </tr>
                 <tr>
-                  <td className="py-3 px-4 font-medium text-gray-700 border-r border-gray-300">
+                  <td className="py-3 px-4 font-medium text-gray-700 text-right">
                     Amount
                   </td>
-                  <td className="py-3 text-green-600 text-right font-bold">
+                  <td className="py-3 px-4 text-green-600 font-bold text-left">
                     ₹{paymentData?.amount || "15000"}
                   </td>
                 </tr>
@@ -258,16 +258,6 @@ const PaymentSuccess = () => {
             />
             <span className="text-sm text-gray-700 font-medium">
               SSL Secure Connection
-            </span>
-          </div>
-          <div className="flex items-center space-x-2">
-            <img
-              src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Verified_by_Visa.svg/1200px-Verified_by_Visa.svg.png"
-              alt="Verified by Visa"
-              className="h-8"
-            />
-            <span className="text-sm text-gray-700 font-medium">
-              Verified by Visa
             </span>
           </div>
         </div>

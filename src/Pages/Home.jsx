@@ -91,7 +91,7 @@ const ColoredTile = ({
       </div>
     )}
     <div className="flex items-center justify-between">
-      <h4 className="text-[15px] font-semibold leading-tight">{title}</h4>
+    <h4 className="text-[15px] font-semibold leading-tight">{title}</h4>
       <FaArrowCircleRight className="text-white opacity-80" size={16} />
     </div>
     {subtitle && <p className="text-xs mt-1 opacity-90">{subtitle}</p>}
@@ -220,13 +220,13 @@ const Home = () => {
   useEffect(() => {
     const token = localStorage.getItem("token");
     const user = localStorage.getItem("user");
-
+    
     if (token && user) {
       // User is already authenticated, redirect to dashboard
       navigate("/dashboard", { replace: true });
     }
   }, [navigate]);
-
+  
   // Accordion data
   const accordionData = [
     {
@@ -409,7 +409,7 @@ const Home = () => {
       <Header />
 
       {/* top dark green nav strip */}
-      <GreenNavBar
+      <GreenNavBar 
         bgColor="bg-[#0B8365]"
         textSize="text-[13px]"
         layout="simple"
@@ -486,13 +486,13 @@ const Home = () => {
                   ].map((item, index) => {
                     const IconComponent = item.icon;
                     return (
-                      <button
+                    <button
                         key={index}
                         className="flex items-center gap-3 w-full bg-emerald-600 hover:bg-emerald-700 text-white text-[13px] px-4 py-3 rounded-md transition-colors"
-                      >
+                    >
                         <IconComponent className="text-white" size={18} />
                         <span className="font-medium">{item.text}</span>
-                      </button>
+                    </button>
                     );
                   })}
                 </div>
@@ -539,35 +539,35 @@ const Home = () => {
                                 isFirst ? "text-blue-800" : "text-slate-800"
                               }`}
                             >
-                              {section.title}
-                            </span>
+                          {section.title}
+                        </span>
                           </div>
                           {section.hasPlus && (
                             <FaPlus className="text-black" size={12} />
                           )}
-                        </button>
-                        {open[section.title] && (
+                      </button>
+                      {open[section.title] && (
                           <div className="bg-gray-50 border-t border-gray-200">
-                            {section.links.map((link, linkIndex) => {
-                              // Check if this is the "P-Tax Login" link in "Existing Dealer" section
+                          {section.links.map((link, linkIndex) => {
+                            // Check if this is the "P-Tax Login" link in "Existing Dealer" section
                               const isPTaxLogin =
                                 section.title === "Existing Dealer" &&
                                 link.text === "P-Tax Login";
-
-                              return (
-                                <button
-                                  key={linkIndex}
+                            
+                            return (
+                              <button
+                                key={linkIndex}
                                   onClick={
                                     isPTaxLogin
                                       ? () => navigate("/login")
                                       : undefined
                                   }
                                   className={`w-full text-left text-[13px] py-2 px-6 flex items-center gap-2 ${
-                                    isPTaxLogin
+                                  isPTaxLogin 
                                       ? "hover:bg-slate-100 cursor-pointer opacity-100"
                                       : "cursor-not-allowed opacity-60"
-                                  }`}
-                                  disabled={!isPTaxLogin}
+                                }`}
+                                disabled={!isPTaxLogin}
                                   title={
                                     isPTaxLogin
                                       ? "Click to go to login page"
@@ -581,12 +581,12 @@ const Home = () => {
                                   <span className="text-slate-700">
                                     {link.text}
                                   </span>
-                                </button>
-                              );
-                            })}
-                          </div>
-                        )}
-                      </div>
+                              </button>
+                            );
+                          })}
+                        </div>
+                      )}
+                    </div>
                     );
                   })}
                 </div>
@@ -641,13 +641,13 @@ const Home = () => {
                 />
               </div>
 
-              <SectionCard title="Department Corner">
-                <ul className="grid grid-cols-1 gap-1">
+                  <SectionCard title="Department Corner">
+                    <ul className="grid grid-cols-1 gap-1">
                   <ArrowItem>CTD Orders</ArrowItem>
                   <ArrowItem>View CTD Orders Prior to 02-06-2014</ArrowItem>
-                  <ArrowItem>TINXSYS</ArrowItem>
-                </ul>
-              </SectionCard>
+                      <ArrowItem>TINXSYS</ArrowItem>
+                    </ul>
+                  </SectionCard>
             </div>
 
             {/* Right column: VAT/CST/TOT + Verification + Help Desk */}

@@ -42,16 +42,16 @@ const Dashboard = () => {
 
       {/* Body content */}
       <main className="flex-1 flex flex-col items-center justify-center text-center text-gray-600">
-        <h2 className="text-xl font-semibold mt-10 text-[#0D784D]">
+        <h2 className="text-xl font-semibold mt-10 text-[#0D784D] font-['Inter']">
           Welcome to the Commercial Taxes Department Portal
         </h2>
-        <p className="text-sm mt-2">
+        <p className="text-sm mt-2 font-['Inter']">
           Select an option from the menu to continue.
         </p>
       </main>
 
       {/* Footer */}
-      <footer className="text-center bg-black text-white text-xs py-2 mt-auto">
+      <footer className="text-center bg-black text-white text-xs py-2 mt-auto font-['Inter']">
         Disclaimer :: Copyright © 2025 Government of Telangana. All rights
         reserved.
       </footer>
