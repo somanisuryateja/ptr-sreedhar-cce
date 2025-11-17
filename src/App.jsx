@@ -12,11 +12,14 @@ import BankTransactionSuccess from "./Components/BankTransactionSuccess";
 import PaymentSuccess from "./Components/PaymentSuccess";
 import PaymentFail from "./Components/PaymentFail";
 import ProtectedRoute from "./Components/ProtectedRoute";
+import DisclaimerBanner from "./Components/DisclaimerBanner";
 
 const App = () => {
   return (
     <Router>
-      <Routes>
+      <>
+        <DisclaimerBanner />
+        <Routes>
         {/* Public routes - no authentication required */}
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
@@ -67,7 +70,8 @@ const App = () => {
             <PaymentFail />
           </ProtectedRoute>
         } />
-      </Routes>
+        </Routes>
+      </>
     </Router>
   );
 };
